@@ -37,7 +37,7 @@ namespace AssetTagPrinter
             _printer.PrintNormal(PrinterStation.Receipt, $"{normal}{center}Your Logo - tiny\n");
 
             // Print barcode
-            _printer.PrintBarcode(PrinterStation.Receipt, asset.Barcode, BarcodeSymbology.Code128, 100, _printer.RecLineWidth, PosPrinter.PrinterBarCodeLeft, BarcodeTextPosition.Below);
+            _printer.PrintBarCode(PrinterStation.Receipt, asset.Barcode, BarCodeSymbology.Code128, 100, _printer.RecLineWidth, PosPrinter.PrinterBarCodeLeft, BarCodeTextPosition.Below);
 
             _printer.PrintNormal(PrinterStation.Receipt, $"{normal}{center}{bold}**ID: {asset.Ref}**\n\n");
 

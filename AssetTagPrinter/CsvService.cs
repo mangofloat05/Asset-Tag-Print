@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace AssetTagPrinter
 {
@@ -13,7 +14,9 @@ namespace AssetTagPrinter
                 throw new FileNotFoundException("CSV file not found.", filePath);
             }
 
-            var lines = File.ReadAllLines(filePath).Skip(1); // Skip header
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var lines = ReadAllLinesWithEncodingFallback(filePath).Skip(1); // Skip header
             foreach (var line in lines)
             {
                 var values = line.Split(',');
@@ -28,6 +31,19 @@ namespace AssetTagPrinter
                     };
                 }
             }
+        }
+
+        private static string[] ReadAllLinesWithEncodingFallback(string filePath)
+        {
+            var utf8 = File.ReadAllText(filePath, new UTF8Encoding(false));
+            if (!utf8.Contains('�'))
+            {
+                return utf8.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.None);
+            }
+
+            var shiftJis = Encoding.GetEncoding(932);
+            var sjisText = File.ReadAllText(filePath, shiftJis);
+            return sjisText.Split(new[] { "\r\n", "\n" }, System.StringSplitOptions.None);
         }
     }
 }

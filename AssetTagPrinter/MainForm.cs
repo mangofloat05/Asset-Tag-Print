@@ -1,17 +1,17 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace AssetTagPrinter
 {
     public partial class MainForm : Form
     {
-        private PrinterService _printerService;
+        private PrinterService? _printerService;
         private CsvService _csvService;
 
         public MainForm()
         {
             InitializeComponent();
-            _printerService = new PrinterService();
             _csvService = new CsvService();
         }
 
@@ -19,7 +19,8 @@ namespace AssetTagPrinter
         {
             try
             {
-                var assets = _csvService.ReadAssets("data.csv");
+                var csvPath = Path.Combine(AppContext.BaseDirectory, "data.csv");
+                var assets = _csvService.ReadAssets(csvPath);
                 dataGridViewAssets.DataSource = new BindingSource { DataSource = assets };
             }
             catch (Exception ex)
@@ -32,6 +33,7 @@ namespace AssetTagPrinter
         {
             try
             {
+                _printerService ??= new PrinterService();
                 _printerService.Open();
                 foreach (DataGridViewRow row in dataGridViewAssets.Rows)
                 {
