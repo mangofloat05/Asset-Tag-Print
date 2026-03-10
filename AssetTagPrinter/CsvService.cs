@@ -17,13 +17,14 @@ namespace AssetTagPrinter
             foreach (var line in lines)
             {
                 var values = line.Split(',');
-                if (values.Length >= 3)
+                if (values.Length >= 4)
                 {
                     yield return new Asset
                     {
-                        ItemName = values[0],
-                        SKU = values[1],
-                        Price = values[2]
+                        Id = int.Parse(values[0]),
+                        Ref = values[1],
+                        Label = values[2],
+                        Barcode = values[3]
                     };
                 }
             }
