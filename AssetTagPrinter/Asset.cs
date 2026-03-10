@@ -2,8 +2,9 @@ namespace AssetTagPrinter
 {
     public class Asset
     {
-        public string ItemName { get; set; }
-        public string SKU { get; set; }
-        public string Price { get; set; }
+        public int Id { get; set; }
+        public string Ref { get; set; }
+        public string Label { get; set; }
+        public string Barcode { get; set; }
     }
 }
