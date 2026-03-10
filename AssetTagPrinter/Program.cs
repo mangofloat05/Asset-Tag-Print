@@ -1,33 +1,20 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace AssetTagPrinter
 {
-    class Program
+    static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            PrinterService printerService = null;
-            try
-            {
-                var csvService = new CsvService();
-                var assets = csvService.ReadAssets("data.csv");
-
-                printerService = new PrinterService();
-                printerService.Open();
-
-                foreach (var asset in assets)
-                {
-                    printerService.PrintAssetTag(asset);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-            finally
-            {
-                printerService?.Close();
-            }
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
         }
     }
 }
